@@ -28,4 +28,4 @@ npm run dev
 
 Após executar o comando acima, o sistema estará disponível em:
 
-- Frontend: [http://localhost:3000](http://localhost:3000)
+- [http://localhost:3000](http://localhost:3000)
