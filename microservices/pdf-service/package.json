@@ -1,0 +1,14 @@
+{
+  "name": "pdf-service",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "dependencies": {
+    "express": "^4.19.2",
+    "pdfkit": "^0.17.1",
+    "node-fetch": "^3.3.2"
+  }
+}
