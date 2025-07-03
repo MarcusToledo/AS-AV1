@@ -3,7 +3,7 @@
 import FiltroStatus from "@/components/FiltroStatus"
 import TarefaForm from "@/components/TarefaForm"
 import TarefaLista from "@/components/TarefaLista"
-import { completeTarefa, createTarefa, deleteTarefa, getTarefas, updateTarefa } from "@/services/tarefaService"
+import { completeTarefa, createTarefa, deleteTarefa, gerarRelatorio, getTarefas, updateTarefa } from "@/services/tarefaService"
 import type { Tarefa } from "@/types/tarefa"
 import { useEffect, useState } from "react"
 
@@ -13,6 +13,7 @@ export default function Home() {
   const [filtroStatus, setFiltroStatus] = useState<string>("todas")
   const [carregando, setCarregando] = useState<boolean>(true)
   const [erro, setErro] = useState<string | null>(null)
+  const [gerandoRelatorio, setGerandoRelatorio] = useState<boolean>(false)
 
   const buscarTarefas = async (status?: string) => {
     setCarregando(true)
@@ -74,6 +75,24 @@ export default function Home() {
     }
   }
 
+  const handleGerarRelatorio = async () => {
+    setGerandoRelatorio(true)
+    try {
+      const blob = await gerarRelatorio()
+      const url = window.URL.createObjectURL(blob)
+      const a = document.createElement("a")
+      a.href = url
+      a.download = "relatorio_tarefas.pdf"
+      a.click()
+      a.remove()
+    } catch (error) {
+      console.error("Erro ao gerar relatório:", error)
+      setErro("Não foi possível gerar o relatório.")
+    } finally {
+      setGerandoRelatorio(false)
+    }
+  }
+
   return (
     <div className="container mx-auto px-4 py-8 max-w-4xl">
       <h1 className="text-3xl font-bold text-center mb-8">Controle de Tarefas</h1>
@@ -96,7 +115,17 @@ export default function Home() {
       <div className="bg-white rounded-lg shadow-md p-6">
         <div className="flex justify-between items-center mb-4">
           <h2 className="text-xl font-semibold">Lista de Tarefas</h2>
-          <FiltroStatus filtroAtual={filtroStatus} onFiltroChange={setFiltroStatus} />
+          <div className="flex items-center gap-2">
+            <FiltroStatus filtroAtual={filtroStatus} onFiltroChange={setFiltroStatus} />
+            <button
+              type="button"
+              onClick={handleGerarRelatorio}
+              disabled={gerandoRelatorio}
+              className="px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500"
+            >
+              {gerandoRelatorio ? "Gerando..." : "Gerar Relatório"}
+            </button>
+          </div>
         </div>
 
         {carregando ? (
