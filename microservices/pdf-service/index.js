@@ -1,11 +1,13 @@
 import express from 'express';
 import fetch from 'node-fetch';
 import PDFDocument from 'pdfkit';
+import cors from 'cors';
 
 const PORT = process.env.PORT || 4000;
 const APP_URL = process.env.APP_URL || 'http://localhost:3000';
 
 const app = express();
+app.use(cors());
 
 app.get('/relatorio', async (req, res) => {
   try {

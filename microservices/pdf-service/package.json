@@ -9,6 +9,7 @@
   "dependencies": {
     "express": "^4.19.2",
     "pdfkit": "^0.17.1",
-    "node-fetch": "^3.3.2"
+    "node-fetch": "^3.3.2",
+    "cors": "^2.8.5"
   }
 }
