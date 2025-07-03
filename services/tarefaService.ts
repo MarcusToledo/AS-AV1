@@ -69,3 +69,12 @@ export async function deleteTarefa(id: string): Promise<void> {
     throw new Error("Erro ao excluir tarefa")
   }
 }
+
+export async function gerarRelatorio(): Promise<Blob> {
+  const response = await fetch("http://localhost:4000/relatorio")
+  if (!response.ok) {
+    throw new Error("Erro ao gerar relatório")
+  }
+
+  return response.blob()
+}
